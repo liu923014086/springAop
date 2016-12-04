@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <display-name></display-name>	
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+   <!--  这个地方默认加载的是系统的变量的配置文件，它们属于是系统级别的配置  -->  
+    <context-param>  
+        <param-name>contextConfigLocation</param-name>  
+        <param-value>  
+        classpath:beanAop.xml 
+        </param-value>  
+    </context-param>  
+    
+   <listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener
+		</listener-class>
+	</listener> 
+
+ 
+      
+    <!--  这个地方加载的是 servlet 的变量的配置文件，它们属于 controller 级别的配置  
+        1.如果不配置这个 servlet-context.xml 的配置文件位置，  
+        那么默认就会去/WEB-INF/servlet-context.xml 下面去寻找这个文件   
+        2.如果配置了这个位置，那么它就会去制定位置加载文件  
+      -->  
+    <servlet>  
+        <servlet-name>appServlet</servlet-name>  
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+        <init-param>  
+            <param-name>contextConfigLocation</param-name>  
+            <param-value>classpath:front-servlet.xml</param-value>  
+        </init-param>  
+        <load-on-startup>1</load-on-startup>  
+    </servlet>  
+    <servlet-mapping>  
+        <servlet-name>appServlet</servlet-name>  
+        <url-pattern>*.do</url-pattern>  
+    </servlet-mapping>  
+    <!-- charactor encoding -->  
+    <filter>  
+        <filter-name>encodingFilter</filter-name>  
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
+        <init-param>  
+            <param-name>encoding</param-name>  
+            <param-value>utf-8</param-value>  
+        </init-param>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>encodingFilter</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping> 
+  
+</web-app>
